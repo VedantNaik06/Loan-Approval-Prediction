@@ -22,8 +22,8 @@ function App() {
 
   // Prediction History
   const [predictionHistory, setPredictionHistory] = useState([]);
-const [historyLoading, setHistoryLoading] = useState(true);
-const [showAllHistory, setShowAllHistory] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const [showAllHistory, setShowAllHistory] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +38,7 @@ const [showAllHistory, setShowAllHistory] = useState(false);
   const fetchPredictionHistory = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:5000/predictions"
+        "https://loan-approval-prediction-1yrj.onrender.com/predictions"
       );
 
       setPredictionHistory(response.data.predictions);
@@ -62,7 +62,7 @@ const [showAllHistory, setShowAllHistory] = useState(false);
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/predict",
+        "https://loan-approval-prediction-1yrj.onrender.com/predict",
         {
           no_of_dependents: Number(formData.no_of_dependents),
           education: formData.education,
@@ -409,15 +409,18 @@ const [showAllHistory, setShowAllHistory] = useState(false);
               className="predict-button"
               disabled={loading}
             >
+
               {loading
                 ? "Analyzing Application..."
                 : "Predict Loan Approval"}
+
             </button>
 
           </form>
 
           {/* Result */}
           {prediction && (
+
             <div className="result-card">
 
               <p className="result-label">
@@ -429,37 +432,54 @@ const [showAllHistory, setShowAllHistory] = useState(false);
               </p>
 
             </div>
+
           )}
 
         </div>
-  
+
         {/* Prediction History */}
         <div className="history-card">
 
           <div className="history-header">
+
             <div>
-              <h2>Prediction History</h2>
-              <p>Previously analyzed loan applications</p>
+
+              <h2>
+                Prediction History
+              </h2>
+
+              <p>
+                Previously analyzed loan applications
+              </p>
+
             </div>
 
             <div className="history-count">
               {predictionHistory.length} Records
             </div>
+
           </div>
 
           {historyLoading ? (
+
             <p className="history-message">
               Loading prediction history...
             </p>
+
           ) : predictionHistory.length === 0 ? (
+
             <p className="history-message">
               No prediction history available.
             </p>
-          ) : (
-          
-          <div className="history-list">
 
-          {(showAllHistory ? predictionHistory : predictionHistory.slice(0, 1)).map((item, index) => (
+          ) : (
+
+            <div className="history-list">
+
+              {(showAllHistory
+                ? predictionHistory
+                : predictionHistory.slice(0, 1)
+              ).map((item, index) => (
 
                 <div
                   className="history-item"
@@ -492,6 +512,7 @@ const [showAllHistory, setShowAllHistory] = useState(false);
                     </div>
 
                     <div className="history-model">
+
                       <span className="history-label">
                         Model
                       </span>
@@ -499,68 +520,110 @@ const [showAllHistory, setShowAllHistory] = useState(false);
                       <span>
                         {item.model || "Random Forest"}
                       </span>
+
                     </div>
 
                   </div>
-
 
                   {/* Main Details */}
                   <div className="history-details-grid">
 
                     <div className="history-detail">
-                      <span>CIBIL Score</span>
-                      <strong>{item.cibil_score}</strong>
+
+                      <span>
+                        CIBIL Score
+                      </span>
+
+                      <strong>
+                        {item.cibil_score}
+                      </strong>
+
                     </div>
 
                     <div className="history-detail">
-                      <span>Loan Amount</span>
+
+                      <span>
+                        Loan Amount
+                      </span>
+
                       <strong>
                         ₹{Number(item.loan_amount).toLocaleString("en-IN")}
                       </strong>
+
                     </div>
 
                     <div className="history-detail">
-                      <span>Annual Income</span>
+
+                      <span>
+                        Annual Income
+                      </span>
+
                       <strong>
                         ₹{Number(item.income_annum).toLocaleString("en-IN")}
                       </strong>
+
                     </div>
 
                     <div className="history-detail">
-                      <span>Loan Term</span>
+
+                      <span>
+                        Loan Term
+                      </span>
+
                       <strong>
                         {item.loan_term} Years
                       </strong>
+
                     </div>
 
                     <div className="history-detail">
-                      <span>Education</span>
+
+                      <span>
+                        Education
+                      </span>
+
                       <strong>
                         {item.education}
                       </strong>
+
                     </div>
 
                     <div className="history-detail">
-                      <span>Self Employed</span>
+
+                      <span>
+                        Self Employed
+                      </span>
+
                       <strong>
                         {item.self_employed}
                       </strong>
+
                     </div>
 
                     <div className="history-detail">
-                      <span>Dependents</span>
+
+                      <span>
+                        Dependents
+                      </span>
+
                       <strong>
                         {item.no_of_dependents}
                       </strong>
+
                     </div>
 
                     <div className="history-detail">
-                      <span>Date</span>
+
+                      <span>
+                        Date
+                      </span>
+
                       <strong>
                         {item.created_at
                           ? new Date(item.created_at).toLocaleDateString("en-IN")
                           : "N/A"}
                       </strong>
+
                     </div>
 
                   </div>
@@ -570,21 +633,30 @@ const [showAllHistory, setShowAllHistory] = useState(false);
               ))}
 
             </div>
+
           )}
 
         </div>
+
         {predictionHistory.length > 1 && (
+
           <button
             className="history-toggle-button"
             onClick={() => setShowAllHistory(!showAllHistory)}
           >
-            {showAllHistory ? "Show Less" : "View More"}
+
+            {showAllHistory
+              ? "Show Less"
+              : "View More"}
+
           </button>
+
         )}
 
-
         <div className="footer">
+
           Powered by Machine Learning • Random Forest Classifier
+
         </div>
 
       </div>
