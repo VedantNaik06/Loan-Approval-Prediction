@@ -42,9 +42,12 @@ print("MongoDB connected successfully!")
 # Load Machine Learning Model
 # ==========================================
 
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))
+)
+
 MODEL_PATH = os.path.join(
-    os.path.dirname(__file__),
-    "..",
+    BASE_DIR,
     "models",
     "loan_approval_model.pkl"
 )
@@ -314,8 +317,5 @@ def get_predictions():
 # ==========================================
 
 if __name__ == "__main__":
-
-    app.run(
-        debug=True,
-        port=5000
-    )
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
